@@ -34,7 +34,7 @@ export default function ImageBlock(props) {
   const {url, css, name, author} = props;
 
   const [touched, setTouched] = React.useState(false);
-  // alert(name);
+
   return (
     <View style={css} onTouchEnd={() => setTouched(true)}>
       <Image source={{uri: url}} style={styles.tinyLogo} />

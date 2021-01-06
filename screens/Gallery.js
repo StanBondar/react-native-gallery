@@ -1,9 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {View, ActivityIndicator, StyleSheet, Dimensions} from 'react-native';
-import ImageBlock from './components/ImageBlock';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import Gallery from './screens/Gallery';
+import ImageBlock from '../components/ImageBlock';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -17,7 +14,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const YourApp = () => {
+const Gallery = () => {
   const [isLoading, setLoading] = useState(true);
   const [photos, setPhotos] = useState([]);
 
@@ -53,15 +50,21 @@ const YourApp = () => {
     </View>
   );
 
-  const Stack = createStackNavigator();
-
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Gallery" component={Gallery} />
-      </Stack.Navigator>
-    </NavigationContainer>
+  return isLoading ? (
+    spinner
+  ) : (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        display: 'flex',
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+      }}>
+      <>{photosArr}</>
+    </View>
   );
 };
 
-export default YourApp;
+export default Gallery;
