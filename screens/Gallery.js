@@ -5,12 +5,25 @@ import ImageBlock from '../components/ImageBlock';
 const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
-  tinyLogo: {
+  block: {
     width: windowWidth / 3,
     height: 179,
     marginBottom: 0,
     padding: 0,
     position: 'relative',
+  },
+  spinner: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  gallery: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
   },
 });
 
@@ -34,7 +47,7 @@ const Gallery = () => {
       ? photos.map((el, id) => {
           return (
             <ImageBlock
-              css={styles.tinyLogo}
+              css={styles.block}
               url={el.urls.small}
               name={el.user.name}
               author={el.alt_description}
@@ -45,7 +58,7 @@ const Gallery = () => {
       : [];
 
   const spinner = (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <View style={styles.spinner}>
       <ActivityIndicator />
     </View>
   );
@@ -54,14 +67,7 @@ const Gallery = () => {
     spinner
   ) : (
     <View
-      style={{
-        flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        display: 'flex',
-        flexWrap: 'wrap',
-        flexDirection: 'row',
-      }}>
+      style={styles.gallery}>
       <>{photosArr}</>
     </View>
   );

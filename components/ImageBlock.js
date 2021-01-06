@@ -2,12 +2,11 @@ import * as React from 'react';
 import {Text, View, StyleSheet, Image} from 'react-native';
 
 const styles = StyleSheet.create({
-  tinyLogo: {
+  image: {
     width: '100%',
     height: '100%',
     marginBottom: 0,
     padding: 0,
-
   },
   imageInfo: {
     display: 'flex',
@@ -37,7 +36,7 @@ export default function ImageBlock(props) {
 
   return (
     <View style={css} onTouchEnd={() => setTouched(true)}>
-      <Image source={{uri: url}} style={styles.tinyLogo} />
+      <Image source={{uri: url}} style={styles.image} />
       <View style={styles.imageInfo}>
         <Text style={touched ? styles.touched : styles.text}>{name}</Text>
         <Text style={styles.text}>{author}</Text>
