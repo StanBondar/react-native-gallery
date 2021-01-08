@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
   },
   spinner: {
     flex: 1,
+    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   },
