@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Image, View, Dimensions} from 'react-native';
+import { connect } from 'react-redux';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -25,4 +26,10 @@ const SingleImage = (props) => {
   );
 };
 
-export default SingleImage;
+const mapStateToProps = (store) => {
+  return {
+    url: store.activeImage
+  }
+}
+
+export default connect(mapStateToProps)(SingleImage);

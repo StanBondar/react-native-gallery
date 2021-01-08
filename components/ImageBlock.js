@@ -1,5 +1,7 @@
 import * as React from 'react';
 import {Text, View, StyleSheet, Image} from 'react-native';
+import {connect} from 'react-redux';
+import {setCurrentImage} from '../redux/actions';
 
 const styles = StyleSheet.create({
   image: {
@@ -29,13 +31,27 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ImageBlock(props) {
-  const {url, css, name, author} = props;
+function ImageBlock(props) {
+  const {
+    url,
+    fullImage,
+    css,
+    name,
+    author,
+    setCurrentImage,
+    navigation,
+  } = props;
 
   const [touched, setTouched] = React.useState(false);
 
+  const onPressHandler = () => {
+    setCurrentImage(fullImage);
+    setTouched(true);
+    navigation.navigate('SingleImage');
+  };
+
   return (
-    <View style={css} onTouchEnd={() => setTouched(true)}>
+    <View style={css} onTouchEnd={onPressHandler}>
       <Image source={{uri: url}} style={styles.image} />
       <View style={styles.imageInfo}>
         <Text style={touched ? styles.touched : styles.text}>{name}</Text>
@@ -44,3 +60,11 @@ export default function ImageBlock(props) {
     </View>
   );
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setCurrentImage: (url) => dispatch(setCurrentImage(url)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ImageBlock);

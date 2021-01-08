@@ -1,6 +1,14 @@
 import React, {useState, useEffect} from 'react';
-import {View, ActivityIndicator, StyleSheet, Dimensions} from 'react-native';
+import {
+  View,
+  ActivityIndicator,
+  StyleSheet,
+  Dimensions,
+  Text,
+} from 'react-native';
+import {connect} from 'react-redux';
 import ImageBlock from '../components/ImageBlock';
+import {getImageBundle} from '../redux/actions';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -27,35 +35,31 @@ const styles = StyleSheet.create({
   },
 });
 
-const Gallery = () => {
-  const [isLoading, setLoading] = useState(true);
-  const [photos, setPhotos] = useState([]);
+const Gallery = (props) => {
+  const {photos, isLoading, getImages, navigation} = props;
 
   useEffect(() => {
-    fetch(
-      'https://api.unsplash.com/photos/?client_id=cf49c08b444ff4cb9e4d126b7e9f7513ba1ee58de7906e4360afc1a33d1bf4c0',
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setPhotos(data);
-        setLoading(false);
-      });
+    getImages();
   }, []);
 
   const photosArr =
-    photos.length > 0
-      ? photos.map((el, id) => {
-          return (
-            <ImageBlock
-              css={styles.block}
-              url={el.urls.small}
-              name={el.user.name}
-              author={el.alt_description}
-              key={id}
-            />
-          );
-        })
-      : [];
+    photos.length > 0 ? (
+      photos.map((el, id) => {
+        return (
+          <ImageBlock
+            css={styles.block}
+            url={el.urls.small}
+            fullImage={el.urls.full}
+            name={el.user.name}
+            author={el.alt_description}
+            key={id}
+            navigation={navigation}
+          />
+        );
+      })
+    ) : (
+      <Text>There are no photos...</Text>
+    );
 
   const spinner = (
     <View style={styles.spinner}>
@@ -73,4 +77,17 @@ const Gallery = () => {
   );
 };
 
-export default Gallery;
+const mapStateToProps = (store) => {
+  return {
+    photos: store.allImages,
+    isLoading: store.loading,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getImages: () => dispatch(getImageBundle()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Gallery);

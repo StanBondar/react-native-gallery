@@ -3,19 +3,21 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Gallery from './screens/Gallery';
 import SingleImage from './screens/SingleImage';
+import {Provider} from 'react-redux';
+import store from './redux/configureStore';
 
 const YourApp = () => {
   const Stack = createStackNavigator();
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Gallery" component={Gallery} />
-        <Stack.Screen name="SingleImage">
-          {props => <SingleImage {...props}/>}
-        </Stack.Screen>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Gallery" component={Gallery} />
+          <Stack.Screen name="SingleImage" component={SingleImage} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 };
 
